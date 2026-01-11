@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ersa Rasoli Tutoring</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#fff6fb;
+      --bg2:#f3fbff;
+      --bg3:#f5fff8;
+      --card: rgba(255,255,255,.86);
+      --card2: rgba(255,255,255,.92);
+      --ink:#0f172a;
+      --muted:#64748b;
+      --line:rgba(15,23,42,.10);
+      --shadow: 0 18px 60px rgba(15,23,42,.12);
+      --radius: 18px;
+
+      --pink: rgba(236,72,153,.95);
+      --blue: rgba(96,165,250,.95);
+      --green: rgba(34,197,94,.90);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+      min-height:100vh;
+      background:
+        radial-gradient(900px 520px at 12% 10%, rgba(236,72,153,.20), transparent 55%),
+        radial-gradient(900px 520px at 88% 10%, rgba(96,165,250,.18), transparent 55%),
+        radial-gradient(900px 520px at 50% 115%, rgba(34,197,94,.14), transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+    }
+    .wrap{ max-width: 1080px; margin:0 auto; padding: 26px 16px 70px; }
+
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; margin-bottom: 18px; flex-wrap:wrap;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .mark{
+      width:44px; height:44px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--pink), var(--blue));
+      box-shadow: 0 18px 40px rgba(236,72,153,.20);
+      display:grid; place-items:center; font-weight:900; color:#fff;
+      user-select:none;
+    }
+    .brand h1{ margin:0; font-size: 16px; font-weight:900; letter-spacing:.2px; }
+    .brand p{ margin:2px 0 0; color:var(--muted); font-weight:650; font-size: 12.5px; }
+
+    .langToggle{
+      display:flex; align-items:center; gap:8px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 10px;
+      box-shadow: 0 14px 34px rgba(15,23,42,.10);
+      flex-wrap:wrap;
+      backdrop-filter: blur(8px);
+    }
+    .langToggle span{ color:var(--muted); font-weight:800; font-size:12px; margin-right:6px; }
+    .langToggle button{
+      border:1px solid rgba(15,23,42,.12);
+      background: transparent;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-weight:900;
+      transition: transform .12s ease, background .12s ease, color .12s ease;
+      font-size: 12px;
+    }
+    .langToggle button.active{
+      background: rgba(236,72,153,.14);
+      color: var(--ink);
+      border-color: rgba(236,72,153,.28);
+      transform: translateY(-1px);
+    }
+
+    .hero{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+    .hero:before{
+      content:"";
+      position:absolute;
+      inset:-180px -220px auto auto;
+      width:360px; height:360px;
+      background: radial-gradient(circle at 30% 30%, rgba(236,72,153,.24), transparent 65%);
+      transform: rotate(12deg);
+      pointer-events:none;
+    }
+    .hero h2{ margin:0 0 10px; font-size: clamp(22px, 3.2vw, 34px); line-height:1.1; }
+    .hero p{ margin:0 0 14px; color: var(--muted); font-weight:650; max-width: 78ch; }
+    .quote{
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px dashed rgba(236,72,153,.35);
+      background: rgba(236,72,153,.07);
+      font-weight:750;
+    }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+    .chip{
+      background: var(--card2);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 12px;
+      color: var(--muted);
+      font-weight:800;
+      font-size: 12.5px;
+      box-shadow: 0 10px 26px rgba(15,23,42,.08);
+      backdrop-filter: blur(8px);
+    }
+    .chip strong{ color: var(--ink); font-weight:950; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 16px;
+      margin-top: 16px;
+      align-items:start;
+    }
+    @media (max-width: 920px){ .grid{ grid-template-columns:1fr; } }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      backdrop-filter: blur(10px);
+    }
+    .card h3{ margin:0 0 10px; font-size: 16px; }
+    .muted{ color: var(--muted); font-weight:650; }
+
+    .list{ margin: 10px 0 0; padding-left: 18px; }
+    .list li{ margin: 8px 0; color: var(--muted); font-weight:650; }
+    .list li strong{ color: var(--ink); font-weight:950; }
+
+    .badge{
+      display:inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight:950;
+      border: 1px solid rgba(96,165,250,.28);
+      background: rgba(96,165,250,.10);
+      margin-top: 8px;
+    }
+
+    .actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px; }
+    .btn{
+      flex: 1;
+      min-width: 180px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      text-decoration:none;
+      color: var(--ink);
+      font-weight:950;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(15,23,42,.12);
+      background: var(--card2);
+      box-shadow: 0 12px 30px rgba(15,23,42,.10);
+      transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 18px 44px rgba(15,23,42,.12);
+    }
+
+    .pill{
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight:950;
+      background: rgba(236,72,153,.14);
+      border: 1px solid rgba(236,72,153,.28);
+    }
+    .pill.green{
+      background: rgba(34,197,94,.12);
+      border-color: rgba(34,197,94,.26);
+    }
+
+    .priceGrid{ display:grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
+    .priceItem{
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(15,23,42,.10);
+      background: var(--card2);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+      box-shadow: 0 12px 30px rgba(15,23,42,.08);
+    }
+    .priceItem .title{ font-weight:950; }
+    .priceItem .desc{ color: var(--muted); font-weight:650; font-size: 12.5px; margin-top:3px; }
+    .priceItem .price{ font-weight:950; white-space:nowrap; }
+
+    form{ margin-top: 12px; display:grid; gap:10px; }
+    .row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    @media (max-width: 520px){ .row{ grid-template-columns:1fr; } }
+
+    input, select, textarea{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(15,23,42,.12);
+      background: rgba(255,255,255,.92);
+      outline:none;
+      font: inherit;
+      font-weight:650;
+      box-shadow: 0 10px 24px rgba(15,23,42,.07);
+    }
+    textarea{ min-height: 110px; resize: vertical; }
+
+    .send{
+      border:0;
+      cursor:pointer;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-weight:950;
+      color: #fff;
+      background: linear-gradient(135deg, var(--pink), var(--blue));
+      border: 1px solid rgba(15,23,42,.10);
+      min-width: 160px;
+      box-shadow: 0 18px 44px rgba(236,72,153,.18);
+    }
+
+    .note{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(15,23,42,.10);
+      background: var(--card2);
+      color: var(--muted);
+      font-weight:650;
+      font-size: 12.5px;
+      line-height: 1.35;
+    }
+
+    .success{
+      display:none;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(34,197,94,.22);
+      background: rgba(34,197,94,.10);
+      color: #065f46;
+      font-weight:900;
+      font-size: 12.5px;
+    }
+
+    footer{ text-align:center; margin-top: 16px; color: var(--muted); font-weight:650; font-size: 12.5px; }
+    a.mail{ color: var(--ink); font-weight:900; text-decoration:none; border-bottom: 1px dotted rgba(15,23,42,.35); }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="mark">ER</div>
+        <div>
+          <h1 id="brandName"></h1>
+          <p id="brandTag"></p>
+        </div>
+      </div>
+
+      <div class="langToggle">
+        <span id="langLabel"></span>
+        <button id="btnEN" class="active" type="button">EN</button>
+        <button id="btnAR" type="button">AR</button>
+        <button id="btnFA" type="button">FA</button>
+        <button id="btnUR" type="button">UR</button>
+        <button id="btnHI" type="button">HI</button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h2 id="heroTitle"></h2>
+      <p id="heroSub"></p>
+      <div class="quote" id="heroQuote"></div>
+      <div class="chips">
+        <div class="chip"><strong id="chip1a"></strong> <span id="chip1b"></span></div>
+        <div class="chip"><strong id="chip2a"></strong> <span id="chip2b"></span></div>
+        <div class="chip"><strong id="chip3a"></strong> <span id="chip3b"></span></div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h3 id="aboutTitle"></h3>
+        <p class="muted" id="aboutText"></p>
+
+        <ul class="list">
+          <li><strong id="sp1"></strong> <span id="sp1v"></span></li>
+          <li><strong id="sp2"></strong> <span id="sp2v"></span></li>
+          <li><strong id="sp3"></strong> <span id="sp3v"></span></li>
+        </ul>
+
+        <div class="badge" id="badgeNote"></div>
+
+        <h3 style="margin-top:16px" id="howTitle"></h3>
+        <ul class="list" id="howList"></ul>
+
+        <div class="actions">
+          <a class="btn" href="https://wa.me/16722008018" target="_blank" rel="noopener">
+            <span id="waText"></span>
+            <span class="pill green" id="waPill"></span>
+          </a>
+
+          <a class="btn" href="https://www.facebook.com/share/1D3tbHxeBx/?mibextid=wwXIfr" target="_blank" rel="noopener">
+            <span id="fbText"></span>
+            <span class="pill" id="fbPill"></span>
+          </a>
+
+          <a class="btn" href="mailto:khoshyersa.r@gmail.com">
+            <span id="emText"></span>
+            <span class="pill" id="emPill"></span>
+          </a>
+        </div>
+
+        <footer>
+          <span id="emailLine"></span>
+          <a class="mail" href="mailto:khoshyersa.r@gmail.com">khoshyersa.r@gmail.com</a>
+        </footer>
+      </section>
+
+      <aside class="card">
+        <h3 id="pricesTitle"></h3>
+        <p class="muted" id="pricesSub"></p>
+
+        <div class="priceGrid">
+          <div class="priceItem">
+            <div><div class="title" id="p1t"></div><div class="desc" id="p1d"></div></div>
+            <div class="price" id="p1p"></div>
+          </div>
+          <div class="priceItem">
+            <div><div class="title" id="p2t"></div><div class="desc" id="p2d"></div></div>
+            <div class="price" id="p2p"></div>
+          </div>
+          <div class="priceItem">
+            <div><div class="title" id="p3t"></div><div class="desc" id="p3d"></div></div>
+            <div class="price" id="p3p"></div>
+          </div>
+          <div class="priceItem">
+            <div><div class="title" id="p4t"></div><div class="desc" id="p4d"></div></div>
+            <div class="price" id="p4p"></div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:16px" id="formTitle"></h3>
+        <p class="muted" id="formSub"></p>
+
+        <!-- ✅ Formspree form (replace YOUR_FORMSPREE_ID) -->
+        <form id="tutorForm"
+              action="https://formspree.io/f/YOUR_FORMSPREE_ID"
+              method="POST">
+
+          <div class="row">
+            <input name="student_name" id="studentName" type="text" required>
+            <input name="contact_email" id="contactEmail" type="email" required>
+          </div>
+
+          <div class="row">
+            <select name="grade" id="grade" required></select>
+            <select name="level" id="level" required></select>
+          </div>
+
+          <div class="row">
+            <select name="subject" id="subject" required></select>
+            <select name="mode" id="mode" required></select>
+          </div>
+
+          <textarea name="message" id="message" required></textarea>
+
+          <button class="send" type="submit" id="sendBtn"></button>
+
+          <div class="success" id="sentMsg">✅ Sent! Ersa will reply soon.</div>
+          <div class="note" id="note"></div>
+        </form>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    function fillGrades(label){
+      const grade = document.getElementById("grade");
+      grade.innerHTML = "";
+      const opt0 = document.createElement("option");
+      opt0.value = "";
+      opt0.textContent = label;
+      grade.appendChild(opt0);
+      for(let i=1;i<=12;i++){
+        const o = document.createElement("option");
+        o.value = String(i);
+        o.textContent = String(i);
+        grade.appendChild(o);
+      }
+    }
+    function fillSelect(el, firstLabel, options){
+      el.innerHTML = "";
+      const o0 = document.createElement("option");
+      o0.value = "";
+      o0.textContent = firstLabel;
+      el.appendChild(o0);
+      options.forEach(v=>{
+        const o = document.createElement("option");
+        o.value = v;
+        o.textContent = v;
+        el.appendChild(o);
+      });
+    }
+
+    const T = {
+      en:{
+        dir:"ltr",
+        langLabel:"Website language",
+        brandName:"Ersa Rasoli Tutoring",
+        brandTag:"Online & in-person tutoring • Vancouver / Lower Mainland",
+        heroTitle:"Private tutoring with clear explanations and structured study plans.",
+        heroSub:"Tutoring is available online or in person (location agreed with the client). Message to book a session or ask questions.",
+        heroQuote:"“A little progress every day adds up to big results.”",
+        chip1a:"Subjects:", chip1b:"Math • Biology • Chemistry • Calculus • Science",
+        chip2a:"Levels:", chip2b:"Grades 1–12 • Elementary • High school",
+        chip3a:"Response:", chip3b:"Usually within 24 hours",
+        aboutTitle:"About Ersa",
+        aboutText:"Professional, patient tutoring focused on building confidence, strong fundamentals, and better grades.",
+        sp1:"Specialties:", sp1v:"Math, Biology, Chemistry, Science, Calculus support",
+        sp2:"Approach:", sp2v:"Step-by-step explanations + practice questions + exam preparation",
+        sp3:"Sessions:", sp3v:"Online or in-person (mutually agreed location)",
+        badgeNote:"Group sessions available (discount depends on group setup)",
+        howTitle:"How it works",
+        howList:[
+          "Submit your grade + subject + what you need help with.",
+          "We agree on time and (for in-person) a safe, public location.",
+          "You get a clear plan: review → practice → homework/exam strategy."
+        ],
+        waText:"WhatsApp", waPill:"Message",
+        fbText:"Facebook", fbPill:"Profile",
+        emText:"Email", emPill:"Send",
+        emailLine:"Email:",
+        pricesTitle:"Pricing (per hour)",
+        pricesSub:"Rates may vary slightly depending on subject difficulty and level.",
+        p1t:"In-person tutoring", p1d:"Standard in-person rate", p1p:"$24/hr",
+        p2t:"High school Math/Science", p2d:"More advanced material", p2p:"$25/hr",
+        p3t:"Lower-level / foundations", p3d:"Basic support & skill-building", p3p:"$23–24/hr",
+        p4t:"Group sessions", p4d:"Discount possible (depends on matching students)", p4p:"TBD",
+        formTitle:"Request a session",
+        formSub:"Fill this out — it sends through the website (no Outlook).",
+        phName:"Student name",
+        phEmail:"Your email",
+        gradeLabel:"Grade (1–12)",
+        levelLabel:"Level",
+        subjectLabel:"Subject",
+        modeLabel:"Online or in-person?",
+        messagePH:"What do you need help with? Include days/times.",
+        sendBtn:"Send request",
+        note:`If anything fails, message on WhatsApp or email <b>khoshyersa.r@gmail.com</b>.`,
+        sentMsg:"✅ Sent! Ersa will reply soon."
+      },
+      ar:{
+        dir:"rtl",
+        langLabel:"لغة الموقع",
+        brandName:"دروس إرسى رسولي",
+        brandTag:"دروس أونلاين أو حضوري • فانكوفر / لوور ماينلاند",
+        heroTitle:"دروس خصوصية بشرح واضح وخطة دراسة منظمة.",
+        heroSub:"الدروس متاحة أونلاين أو حضوري (المكان يتم الاتفاق عليه مع الطالب). راسلني للحجز أو للاستفسار.",
+        heroQuote:"“تقدّم بسيط كل يوم يصنع نتيجة كبيرة.”",
+        chip1a:"المواد:", chip1b:"رياضيات • أحياء • كيمياء • تفاضل وتكامل • علوم",
+        chip2a:"المستويات:", chip2b:"الصفوف 1–12 • ابتدائي • ثانوي",
+        chip3a:"الرد:", chip3b:"عادةً خلال 24 ساعة",
+        aboutTitle:"نبذة عن إرسى",
+        aboutText:"دروس احترافية وصبورة تركّز على بناء الثقة، وتقوية الأساسيات، وتحسين الدرجات.",
+        sp1:"التخصصات:", sp1v:"رياضيات، أحياء، كيمياء، علوم، دعم تفاضل وتكامل",
+        sp2:"الطريقة:", sp2v:"شرح خطوة بخطوة + أسئلة تدريب + تحضير للاختبارات",
+        sp3:"الجلسات:", sp3v:"أونلاين أو حضوري (حسب الاتفاق على المكان)",
+        badgeNote:"تتوفر جلسات جماعية (الخصم يعتمد على تكوين المجموعة)",
+        howTitle:"كيف يتم العمل",
+        howList:[
+          "أرسل الصف + المادة + ما تحتاجه من مساعدة.",
+          "نتفق على الوقت و(للحضوري) مكان عام وآمن.",
+          "خطة واضحة: مراجعة → تدريب → استراتيجية واجب/اختبار."
+        ],
+        waText:"واتساب", waPill:"رسالة",
+        fbText:"فيسبوك", fbPill:"الحساب",
+        emText:"إيميل", emPill:"إرسال",
+        emailLine:"الإيميل:",
+        pricesTitle:"الأسعار (بالساعة)",
+        pricesSub:"قد تختلف الأسعار قليلاً حسب صعوبة المادة والمستوى.",
+        p1t:"دروس حضورية", p1d:"السعر القياسي للحضوري", p1p:"$24/ساعة",
+        p2t:"رياضيات/علوم ثانوي", p2d:"مستوى متقدم", p2p:"$25/ساعة",
+        p3t:"مستويات أقل / تأسيس", p3d:"دعم أساسي وبناء مهارات", p3p:"$23–24/ساعة",
+        p4t:"جلسات جماعية", p4d:"خصم ممكن (حسب توفر مجموعة مناسبة)", p4p:"لاحقاً",
+        formTitle:"طلب جلسة",
+        formSub:"املأ النموذج — سيتم الإرسال مباشرة من الموقع (بدون Outlook).",
+        phName:"اسم الطالب",
+        phEmail:"إيميلك",
+        gradeLabel:"الصف (1–12)",
+        levelLabel:"المستوى",
+        subjectLabel:"المادة",
+        modeLabel:"أونلاين أم حضوري؟",
+        messagePH:"اكتب ما تحتاجه + الأيام/الأوقات.",
+        sendBtn:"إرسال الطلب",
+        note:`إذا حدث أي شيء، راسلنا على واتساب أو أرسل إيميل إلى <b>khoshyersa.r@gmail.com</b>.`,
+        sentMsg:"✅ تم الإرسال! سترد إرسى قريباً."
+      },
+      fa:{
+        dir:"rtl",
+        langLabel:"زبان سایت",
+        brandName:"تدریس خصوصی ارسـا رسولی",
+        brandTag:"آنلاین و حضوری • ونکوور / لوئر مین‌لند",
+        heroTitle:"تدریس خصوصی با توضیح روشن و برنامه‌ریزی منظم.",
+        heroSub:"کلاس‌ها آنلاین یا حضوری (با توافق محل) برگزار می‌شود. برای رزرو یا سؤال پیام دهید.",
+        heroQuote:"«پیشرفت کوچک هر روز، نتیجه‌ی بزرگ می‌سازد.»",
+        chip1a:"دروس:", chip1b:"ریاضی • زیست • شیمی • کالکولس • علوم",
+        chip2a:"سطح:", chip2b:"پایه‌های ۱ تا ۱۲ • ابتدایی • دبیرستان",
+        chip3a:"پاسخگویی:", chip3b:"معمولاً تا ۲۴ ساعت",
+        aboutTitle:"درباره ارسـا",
+        aboutText:"تدریس حرفه‌ای و صبورانه برای تقویت پایه و بهتر شدن نمره‌ها.",
+        sp1:"تخصص‌ها:", sp1v:"ریاضی، زیست، شیمی، علوم، پشتیبانی کالکولس",
+        sp2:"روش:", sp2v:"توضیح قدم‌به‌قدم + تمرین + آمادگی امتحان",
+        sp3:"جلسات:", sp3v:"آنلاین یا حضوری (محل با توافق)",
+        badgeNote:"کلاس گروهی ممکن است (تخفیف بسته به تشکیل گروه)",
+        howTitle:"مراحل کار",
+        howList:[
+          "پایه + درس + نیازتان را ارسال کنید.",
+          "زمان و (برای حضوری) مکان عمومی و امن را هماهنگ می‌کنیم.",
+          "برنامه: مرور → تمرین → راهبرد امتحان."
+        ],
+        waText:"واتساپ", waPill:"پیام",
+        fbText:"فیسبوک", fbPill:"پروفایل",
+        emText:"ایمیل", emPill:"ارسال",
+        emailLine:"ایمیل:",
+        pricesTitle:"هزینه (ساعتی)",
+        pricesSub:"بسته به سطح ممکن است کمی تغییر کند.",
+        p1t:"کلاس حضوری", p1d:"نرخ استاندارد حضوری", p1p:"$24/ساعت",
+        p2t:"ریاضی/علوم دبیرستان", p2d:"مطالب پیشرفته‌تر", p2p:"$25/ساعت",
+        p3t:"سطح پایین‌تر / پایه", p3d:"تقویت مهارت و پایه", p3p:"$23–24/ساعت",
+        p4t:"کلاس گروهی", p4d:"تخفیف ممکن است (بسته به تشکیل گروه)", p4p:"TBD",
+        formTitle:"درخواست جلسه",
+        formSub:"فرم را پر کنید — ارسال مستقیم از سایت (بدون Outlook).",
+        phName:"نام دانش‌آموز",
+        phEmail:"ایمیل شما",
+        gradeLabel:"پایه (۱ تا ۱۲)",
+        levelLabel:"سطح",
+        subjectLabel:"درس",
+        modeLabel:"آنلاین یا حضوری؟",
+        messagePH:"نیازتان + روزها/ساعت‌ها را بنویسید.",
+        sendBtn:"ارسال درخواست",
+        note:`اگر مشکلی بود، در واتساپ پیام دهید یا به <b>khoshyersa.r@gmail.com</b> ایمیل بزنید.`,
+        sentMsg:"✅ ارسال شد! ارسـا به‌زودی پاسخ می‌دهد."
+      },
+      ur:{
+        dir:"rtl",
+        langLabel:"ویب سائٹ کی زبان",
+        brandName:"ارسا رسولی ٹیوٹرنگ",
+        brandTag:"آن لائن اور اِن پرسن • وینکوور / لوئر مین لینڈ",
+        heroTitle:"واضح سمجھانے اور منظم اسٹڈی پلان کے ساتھ پرائیویٹ ٹیوٹرنگ۔",
+        heroSub:"کلاسز آن لائن یا اِن پرسن (مقام باہمی طور پر طے ہوتا ہے)۔ بکنگ کے لیے میسج کریں۔",
+        heroQuote:"“روزانہ تھوڑی سی محنت بڑے نتائج دیتی ہے۔”",
+        chip1a:"مضامین:", chip1b:"ریاضی • بایولوجی • کیمسٹری • کیلکولس • سائنس",
+        chip2a:"سطح:", chip2b:"گریڈ 1–12 • ایلیمنٹری • ہائی اسکول",
+        chip3a:"جواب:", chip3b:"عموماً 24 گھنٹوں میں",
+        aboutTitle:"ارسا کے بارے میں",
+        aboutText:"پروفیشنل اور صبر کے ساتھ ٹیوٹرنگ—بیسکس مضبوط کرنے اور گریڈ بہتر کرنے کے لیے۔",
+        sp1:"اسپیشلٹیز:", sp1v:"ریاضی، بایولوجی، کیمسٹری، سائنس، کیلکولس سپورٹ",
+        sp2:"طریقہ:", sp2v:"قدم بہ قدم سمجھانا + پریکٹس سوالات + امتحان تیاری",
+        sp3:"سیشن:", sp3v:"آن لائن یا اِن پرسن (مقام باہمی طور پر طے)",
+        badgeNote:"گروپ سیشن ممکن ہیں (ڈسکاؤنٹ گروپ پر منحصر ہے)",
+        howTitle:"طریقۂ کار",
+        howList:[
+          "اپنا گریڈ + مضمون + ضرورت لکھیں۔",
+          "وقت طے کریں اور (اِن پرسن) محفوظ عوامی جگہ۔",
+          "پلان: ریویو → پریکٹس → امتحان اسٹریٹیجی۔"
+        ],
+        waText:"WhatsApp", waPill:"Message",
+        fbText:"Facebook", fbPill:"Profile",
+        emText:"Email", emPill:"Send",
+        emailLine:"Email:",
+        pricesTitle:"قیمت (فی گھنٹہ)",
+        pricesSub:"سطح کے مطابق معمولی فرق ہو سکتا ہے۔",
+        p1t:"اِن پرسن ٹیوٹرنگ", p1d:"اِن پرسن اسٹینڈرڈ ریٹ", p1p:"$24/hr",
+        p2t:"ہائی اسکول ریاضی/سائنس", p2d:"زیادہ ایڈوانس مواد", p2p:"$25/hr",
+        p3t:"کم سطح / بنیاد", p3d:"بیسکس اور اسکل بلڈنگ", p3p:"$23–24/hr",
+        p4t:"گروپ سیشن", p4d:"ڈسکاؤنٹ ممکن ہے (گروپ پر منحصر)", p4p:"TBD",
+        formTitle:"سیشن کی درخواست",
+        formSub:"فارم بھریں — ویب سائٹ سے ڈائریکٹ بھیج دیا جائے گا (Outlook نہیں کھلے گا)۔",
+        phName:"طالب علم کا نام",
+        phEmail:"آپ کی ای میل",
+        gradeLabel:"گریڈ (1–12)",
+        levelLabel:"سطح",
+        subjectLabel:"مضمون",
+        modeLabel:"آن لائن یا اِن پرسن؟",
+        messagePH:"ضرورت + دن/وقت لکھیں۔",
+        sendBtn:"درخواست بھیجیں",
+        note:`اگر کچھ مسئلہ ہو تو WhatsApp پر میسج کریں یا <b>khoshyersa.r@gmail.com</b> پر ای میل کریں۔`,
+        sentMsg:"✅ بھیج دیا گیا! ارسا جلد جواب دے گی۔"
+      },
+      hi:{
+        dir:"ltr",
+        langLabel:"वेबसाइट भाषा",
+        brandName:"Ersa Rasoli Tutoring",
+        brandTag:"Online & in-person tutoring • Vancouver / Lower Mainland",
+        heroTitle:"स्पष्ट समझ और व्यवस्थित स्टडी प्लान के साथ प्राइवेट ट्यूशन।",
+        heroSub:"क्लास ऑनलाइन या इन-पर्सन (स्थान आपसी सहमति से) उपलब्ध है। बुकिंग/सवाल के लिए मैसेज करें।",
+        heroQuote:"“हर दिन की छोटी प्रगति बड़े परिणाम देती है।”",
+        chip1a:"विषय:", chip1b:"Math • Biology • Chemistry • Calculus • Science",
+        chip2a:"स्तर:", chip2b:"कक्षा 1–12 • Elementary • High school",
+        chip3a:"उत्तर:", chip3b:"आमतौर पर 24 घंटे के अंदर",
+        aboutTitle:"Ersa के बारे में",
+        aboutText:"धैर्यपूर्वक और प्रोफेशनल ट्यूशन—कॉन्फिडेंस, बेसिक्स और ग्रेड सुधारने के लिए।",
+        sp1:"विशेषज्ञता:", sp1v:"Math, Biology, Chemistry, Science, Calculus support",
+        sp2:"तरीका:", sp2v:"Step-by-step समझाना + practice questions + exam preparation",
+        sp3:"सेशंस:", sp3v:"Online या in-person (स्थान आपसी सहमति से तय)",
+        badgeNote:"Group sessions संभव हैं (discount group पर depend करेगा)",
+        howTitle:"कैसे काम करता है",
+        howList:[
+          "अपनी कक्षा + विषय + मदद की जरूरत लिखें।",
+          "समय तय करें और (इन-पर्सन) सुरक्षित पब्लिक लोकेशन।",
+          "प्लान: review → practice → homework/exam strategy."
+        ],
+        waText:"WhatsApp", waPill:"Message",
+        fbText:"Facebook", fbPill:"Profile",
+        emText:"Email", emPill:"Send",
+        emailLine:"Email:",
+        pricesTitle:"Pricing (per hour)",
+        pricesSub:"Level/subject difficulty के अनुसार थोड़ा बदल सकता है।",
+        p1t:"In-person tutoring", p1d:"Standard in-person rate", p1p:"$24/hr",
+        p2t:"High school Math/Science", p2d:"More advanced material", p2p:"$25/hr",
+        p3t:"Lower-level / foundations", p3d:"Basic support & skill-building", p3p:"$23–24/hr",
+        p4t:"Group sessions", p4d:"Discount possible (depends on group setup)", p4p:"TBD",
+        formTitle:"Session request",
+        formSub:"यह फॉर्म वेबसाइट से सीधे भेजता है (Outlook/email apps नहीं खुलेगा)।",
+        phName:"Student name",
+        phEmail:"Your email",
+        gradeLabel:"Grade (1–12)",
+        levelLabel:"Level",
+        subjectLabel:"Subject",
+        modeLabel:"Online or in-person?",
+        messagePH:"आपको किस चीज़ में मदद चाहिए? Days/times लिखें।",
+        sendBtn:"Send request",
+        note:`अगर कुछ भी समस्या हो, WhatsApp पर मैसेज करें या <b>khoshyersa.r@gmail.com</b> पर email करें।`,
+        sentMsg:"✅ भेज दिया गया! Ersa जल्द reply करेगी।"
+      }
+    };
+
+    function applyText(lang){
+      const t = T[lang];
+      document.documentElement.dir = t.dir;
+
+      document.getElementById("langLabel").textContent = t.langLabel;
+      document.getElementById("brandName").textContent = t.brandName;
+      document.getElementById("brandTag").textContent = t.brandTag;
+
+      document.getElementById("heroTitle").textContent = t.heroTitle;
+      document.getElementById("heroSub").textContent = t.heroSub;
+      document.getElementById("heroQuote").textContent = t.heroQuote;
+
+      document.getElementById("chip1a").textContent = t.chip1a;
+      document.getElementById("chip1b").textContent = t.chip1b;
+      document.getElementById("chip2a").textContent = t.chip2a;
+      document.getElementById("chip2b").textContent = t.chip2b;
+      document.getElementById("chip3a").textContent = t.chip3a;
+      document.getElementById("chip3b").textContent = t.chip3b;
+
+      document.getElementById("aboutTitle").textContent = t.aboutTitle;
+      document.getElementById("aboutText").textContent = t.aboutText;
+
+      document.getElementById("sp1").textContent = t.sp1; document.getElementById("sp1v").textContent = t.sp1v;
+      document.getElementById("sp2").textContent = t.sp2; document.getElementById("sp2v").textContent = t.sp2v;
+      document.getElementById("sp3").textContent = t.sp3; document.getElementById("sp3v").textContent = t.sp3v;
+
+      document.getElementById("badgeNote").textContent = t.badgeNote;
+
+      document.getElementById("howTitle").textContent = t.howTitle;
+      const howList = document.getElementById("howList");
+      howList.innerHTML = "";
+      t.howList.forEach(line=>{
+        const li = document.createElement("li");
+        li.textContent = line;
+        howList.appendChild(li);
+      });
+
+      document.getElementById("waText").textContent = t.waText;
+      document.getElementById("waPill").textContent = t.waPill;
+      document.getElementById("fbText").textContent = t.fbText;
+      document.getElementById("fbPill").textContent = t.fbPill;
+      document.getElementById("emText").textContent = t.emText;
+      document.getElementById("emPill").textContent = t.emPill;
+      document.getElementById("emailLine").textContent = t.emailLine;
+
+      document.getElementById("pricesTitle").textContent = t.pricesTitle;
+      document.getElementById("pricesSub").textContent = t.pricesSub;
+
+      document.getElementById("p1t").textContent = t.p1t; document.getElementById("p1d").textContent = t.p1d; document.getElementById("p1p").textContent = t.p1p;
+      document.getElementById("p2t").textContent = t.p2t; document.getElementById("p2d").textContent = t.p2d; document.getElementById("p2p").textContent = t.p2p;
+      document.getElementById("p3t").textContent = t.p3t; document.getElementById("p3d").textContent = t.p3d; document.getElementById("p3p").textContent = t.p3p;
+      document.getElementById("p4t").textContent = t.p4t; document.getElementById("p4d").textContent = t.p4d; document.getElementById("p4p").textContent = t.p4p;
+
+      document.getElementById("formTitle").textContent = t.formTitle;
+      document.getElementById("formSub").textContent = t.formSub;
+
+      document.getElementById("studentName").placeholder = t.phName;
+      document.getElementById("contactEmail").placeholder = t.phEmail;
+
+      fillGrades(t.gradeLabel);
+      fillSelect(document.getElementById("level"), t.levelLabel, ["Elementary","High school","Other"]);
+      fillSelect(document.getElementById("subject"), t.subjectLabel, ["Math","Biology","Chemistry","Science","Calculus","Other"]);
+      fillSelect(document.getElementById("mode"), t.modeLabel, ["Online","In-person","Either"]);
+
+      document.getElementById("message").placeholder = t.messagePH;
+      document.getElementById("sendBtn").textContent = t.sendBtn;
+      document.getElementById("note").innerHTML = t.note;
+      document.getElementById("sentMsg").textContent = t.sentMsg;
+
+      ["EN","AR","FA","UR","HI"].forEach(code=>{
+        document.getElementById("btn"+code).classList.toggle("active", code.toLowerCase() === lang);
+      });
+    }
+
+    document.getElementById("btnEN").onclick = ()=>applyText("en");
+    document.getElementById("btnAR").onclick = ()=>applyText("ar");
+    document.getElementById("btnFA").onclick = ()=>applyText("fa");
+    document.getElementById("btnUR").onclick = ()=>applyText("ur");
+    document.getElementById("btnHI").onclick = ()=>applyText("hi");
+    applyText("en");
+
+    // ✅ Formspree submit (no redirect)
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("tutorForm");
+      const sent = document.getElementById("sentMsg");
+      const sendBtn = document.getElementById("sendBtn");
+      if (!form) return;
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        sent.style.display = "none";
+
+        sendBtn.disabled = true;
+        const original = sendBtn.textContent;
+        sendBtn.textContent = "Sending...";
+
+        const data = new FormData(form);
+
+        try {
+          const res = await fetch(form.action, {
+            method: "POST",
+            body: data,
+            headers: { "Accept": "application/json" }
+          });
+
+          if (res.ok) {
+            form.reset();
+            sent.style.display = "block";
+            sent.scrollIntoView({ behavior: "smooth", block: "center" });
+          } else {
+            alert("Something went wrong. Please try again, or message on WhatsApp.");
+          }
+        } catch (err) {
+          alert("Blocked request / no internet. Please try again, or message on WhatsApp.");
+        } finally {
+          sendBtn.disabled = false;
+          sendBtn.textContent = original;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
